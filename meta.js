@@ -44,7 +44,7 @@ module.exports = {
       type: 'string',
       required: false,
       message: 'Project description',
-      default: 'A Vue.js project',
+      default: 'A customer vue admin template with Element UI & axios & vue-router & vuex & lint  Vue.js project',
     },
     author: {
       when: 'isNotTest',
