@@ -25,8 +25,16 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "vue": "^2.5.2"{{#router}},
-    "vue-router": "^3.0.1"{{/router}}
+    "vue": "^2.5.2",
+    "vue-router": "^3.0.1",
+    "axios": "^0.18.0",
+    {{#if_eq platform "mobile"}}
+    "mint-ui": "^2.2.13",
+    {{/if_eq}}
+    {{#if_eq platform "web"}}
+    "element-ui":"^2.4.11",
+    {{/if_eq}}
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
     {{#lint}}
@@ -82,6 +90,8 @@
     "nightwatch": "^0.9.12",
     "selenium-server": "^3.0.1",
     {{/e2e}}
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",

@@ -69,10 +69,27 @@ module.exports = {
         },
       ],
     },
-    router: {
+    /* router: {
       when: 'isNotTest',
       type: 'confirm',
       message: 'Install vue-router?',
+    }, */
+    platform:{
+      when: 'isNotTest',
+      type: 'list',
+      message: 'Pick an run platform',
+      choices: [
+        {
+          name: 'Run Mobile',
+          value: 'mobile',
+          short: 'mobile',
+        },
+        {
+          name:'Run Web (PC)',
+          value: 'web',
+          short: 'web',
+        },
+      ],
     },
     lint: {
       when: 'isNotTest',
@@ -169,11 +186,12 @@ module.exports = {
     'test/unit/specs/index.js': "unit && runner === 'karma'",
     'test/unit/setup.js': "unit && runner === 'jest'",
     'test/e2e/**/*': 'e2e',
-    'src/router/**/*': 'router',
+    // 'src/router/**/*': 'router',
+    'src/components/indicator/**':"platform==='web'"
   },
   complete: function(data, { chalk }) {
     const green = chalk.green
-
+console.log(data)
     sortDependencies(data, green)
 
     const cwd = path.join(process.cwd(), data.inPlace ? '' : data.destDirName)
