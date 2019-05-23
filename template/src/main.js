@@ -22,7 +22,7 @@ Object.keys(filters).forEach(key=>{
 })
 
 Object.keys(directives).forEach(key=>{
-  Vue.filter(key,directives[key])
+  Vue.directive(key,directives[key])
 })
 
 {{#if_eq platform "mobile"}}
