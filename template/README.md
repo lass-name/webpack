@@ -2,6 +2,42 @@
 
 > {{ description }}
 
+## Quick Start
+
+>修改代理配置地址：/config/index.js
+```javascript
+'/api': {
+  target: 'http://xxxx.api.com',  // 此处替换成真实的api地址
+  changeOrigin: true,
+  pathRewrite: {
+    '^/api': ''
+  }
+}
+```
+
+> 添加api调用的地址： /src/api 目录下添加(可以根据类别添加多个文件)
+```javascript
+const authorization = [
+  {
+    url: '/user/login',     // 请求地址
+    method: 'post',         // 请求方式
+    desc: '事例',           // 描述信息（文字描述）
+    argsParams: true        // 是否param方式传递参数
+  },{
+    ...
+  }
+]
+export default authorization
+
+```
+
+>在页面中调用api函数，使用方法：（在.vue页面中使用方法）
+```javascript
+this.$store.dispatch('userLogin',{}).then(data=>{
+  console.log(data)
+})
+```
+
 ## Build Setup
 
 ``` bash
