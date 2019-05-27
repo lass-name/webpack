@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 /**
  * 数据存储方式
  */
@@ -26,4 +27,16 @@ export const unique = (arr) => {
     }
     return (!tmp.has(item) && tmp.set(item, 1))
   })
+}
+
+export const day = {
+  now: () => {
+    return dayjs()
+  },
+  nowF: (format = 'YYYY-MM-DD') => {
+    return dayjs().format(format)
+  },
+  format: (value, format = 'YYYY-MM-DD') => {
+    return dayjs(value).format(format)
+  }
 }

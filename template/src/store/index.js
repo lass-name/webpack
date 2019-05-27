@@ -29,25 +29,24 @@ const actions = {
 const mutations = {
   [types.COMMIT_PURE_DATA] (state, data) {
     if ((data.value && !data.value.ResultCode) || !!data.reset) {
-      state.commonData[data.key] = data.value
-      let save = data.save === undefined
-      if (save) {
+      state.commonData[data.key || 'nokey'] = data.value
+      let save = data.save === undefined || !!data.save
+      if (save) { // 本地存储
         storage.setItem('commonData', JSON.stringify(state.commonData))
       }
     }
   }
 }
 
-console.log(generator)
 const merge = require('webpack-merge')
-const mergedModules = merge.smart(generator, modules)
+const generatorModules = merge.smart(generator, modules)
 
 const store = new Vuex.Store({
   state,
   getters,
   actions,
   mutations,
-  modules: mergedModules
+  modules: generatorModules
 })
 
 export default store

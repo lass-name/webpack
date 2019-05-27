@@ -34,7 +34,8 @@
     {{#if_eq platform "web"}}
     "element-ui":"^2.4.11",
     {{/if_eq}}
-    "vuex": "^3.1.0"
+    "vuex": "^3.1.0",
+    "dayjs": "^1.8.14"
   },
   "devDependencies": {
     {{#lint}}

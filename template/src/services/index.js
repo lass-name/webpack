@@ -11,11 +11,14 @@ const requireApi = require.context('@/api', false, /\.js$/)
 let methods = {}
 requireApi.keys().forEach(fileName => {
   let obj = requireApi(fileName).default
-  let name = fileName.replace(/\.\/|\.js$/g, '')
+
   for (let o of obj) {
     let {url, method, argsParams} = o
-    method = method || 'get'
-    methods[url.replace(`/${name}/`, '')] = (commit, payload, mutation) => {
+    method = method.toLowerCase() || 'get'
+    let methodName = url.replace(/\//, '').replace(/\/([a-z])/, (all, letter) => {
+      return letter.toUpperCase()
+    })
+    methods[methodName] = (commit, payload, mutation) => {
       if (method === 'get' && argsParams) {
         url = `${url}/${payload.id || payload}`
       }
@@ -25,6 +28,8 @@ requireApi.keys().forEach(fileName => {
   }
 })
 
+console.log(methods)
 services = {...methods, ...services}
+console.log(services)
 
 export default services

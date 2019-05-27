@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
 
@@ -11,13 +10,13 @@ requireRouter.keys().forEach(fileName => {
   _routers = [..._routers, ...requireRouter(fileName).default]
 })
 
-export default new Router({
+let router = new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      name: 'layout',
+      component: () => import('@/views/layout'),
       children: _routers
     }
   ],
@@ -29,3 +28,4 @@ export default new Router({
     }
   }
 })
+export default router

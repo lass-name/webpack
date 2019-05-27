@@ -41,7 +41,7 @@ axios.interceptors.response.use(response => {
   Indicator.close()
   return Promise.reject(error)
 })
-let baseUrl = '/openapi/runbao'
+let baseUrl = '/api'
 
 const defaultOptions = {
   baseURL: baseUrl,
@@ -109,5 +109,4 @@ export default {
       resolve(dval)
     })
   }
-
 }
