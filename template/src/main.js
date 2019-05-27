@@ -17,13 +17,22 @@ import 'element-ui/lib/theme-chalk/index.css'
 import * as filters from '@/filters'
 import * as directives from '@/directives'
 
-Object.keys(filters).forEach(key=>{
-  Vue.filter(key,filters[key])
-})
+const setFilter = (value, type = 1) => {
+  Object.keys(value).forEach(key => {
+    if (typeof value[key] === 'function') {
+      if (type === 1) {
+        Vue.filter(key, value[key])
+      } else {
+        Vue.directive(key, value[key])
+      }
+    } else {
+      setFilter(value[key], type)
+    }
+  })
+}
 
-Object.keys(directives).forEach(key=>{
-  Vue.directive(key,directives[key])
-})
+setFilter(filters)
+setFilter(directives, 2)
 
 {{#if_eq platform "mobile"}}
 Vue.use(mintUI)
