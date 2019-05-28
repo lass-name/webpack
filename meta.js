@@ -30,6 +30,9 @@ module.exports = {
     template_version() {
       return templateVersion
     },
+    raw_helper(options){
+      return options.fn()
+    }
   },
   
   prompts: {
@@ -44,7 +47,7 @@ module.exports = {
       type: 'string',
       required: false,
       message: 'Project description',
-      default: 'A customer vue admin template with Element UI & axios & vue-router & vuex & lint  Vue.js project',
+      default: 'A customer vue template with axios & vue-router & vuex & lint  Vue.js project',
     },
     author: {
       when: 'isNotTest',
@@ -187,7 +190,9 @@ module.exports = {
     'test/unit/setup.js': "unit && runner === 'jest'",
     'test/e2e/**/*': 'e2e',
     // 'src/router/**/*': 'router',
-    'src/components/indicator/**':"platform==='web'"
+    'src/components/**/**':"platform==='web'",
+    'src/views/demo/**':"platform==='web'",
+    'src/router/demo.js':"platform==='web'"
   },
   complete: function(data, { chalk }) {
     const green = chalk.green

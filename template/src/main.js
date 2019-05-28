@@ -13,7 +13,12 @@ import 'mint-ui/lib/style.css'
 {{#if_eq platform "web"}}
 import elementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import components from '@/components'
+Object.keys(components).forEach(key => {
+  Vue.component(components[key].name, components[key])
+})
 {{/if_eq}}
+
 import * as filters from '@/filters'
 import * as directives from '@/directives'
 
