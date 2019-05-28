@@ -1,7 +1,11 @@
 import enumData from '@/data/enum'
 
 const factory = (value, source) => {
-  return (value !== undefined && source.find(c => +c.key === +value) && source.find(c => +c.key === +value).value) || value
+  if (value === undefined) {
+    return value
+  }
+  let obj = source.find(c => `${c.key}`.trim() === `${value}`.trim())
+  return (obj && obj.value) || value
 }
 
 let methods = {}
