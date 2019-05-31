@@ -100,6 +100,7 @@ export default {
   },
   getOptions: (url, data = {}, timeout = defaultOptions.timeout, baseURL = defaultOptions.baseURL) => {
     timeout = timeout || defaultOptions.timeout
+    baseURL = baseURL || defaultOptions.baseURL
     return {url, data, timeout, baseURL}
   },
   pureDataCommit: (commit, data, mutation) => {

@@ -2,7 +2,13 @@
 <html>
   <head>
     <meta charset="utf-8">
+    {{#if_eq platform "web"}}
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    {{/if_eq}}
+    {{#if_eq platform "mobile"}}
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    {{/if_eq}}
     <title>{{ name }}</title>
   </head>
   <body>

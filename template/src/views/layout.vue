@@ -1,6 +1,8 @@
 <template>
 {{#if_eq platform "mobile"}}
-  <div class="container"></div>
+  <div class="container">
+    <router-view></router-view>
+  </div>
 {{/if_eq}}
 {{#if_eq platform "web"}}
   <el-row class="container">

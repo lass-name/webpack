@@ -9,6 +9,7 @@ import store from './store'
 {{#if_eq platform "mobile"}}
 import mintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
+import vueTitle from 'vue-wechat-title'
 {{/if_eq}}
 {{#if_eq platform "web"}}
 import elementUI from 'element-ui'
@@ -41,6 +42,7 @@ setFilter(directives, 2)
 
 {{#if_eq platform "mobile"}}
 Vue.use(mintUI)
+Vue.use(vueTitle)
 {{/if_eq}}
 {{#if_eq platform "web"}}
 Vue.use(elementUI,{size:'small'})

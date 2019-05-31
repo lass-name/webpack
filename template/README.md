@@ -22,7 +22,13 @@ const authorization = [
     url: '/user/login',     // 请求地址
     method: 'post',         // 请求方式
     desc: '事例',           // 描述信息（文字描述）
-    argsParams: true        // 是否param方式传递参数
+    argsParams: true        // 是否param方式传递参数 (user/:userId)
+  },{
+    ...
+  },{
+    url:'/preprice-ins/files/upload/wx'        // 转换成action为：prepriceInsFilesUploadWx
+  },{
+    url: '/user?Action=UserSendSMS'            // 转换成action为：userActionUserSendSMS
   },{
     ...
   }

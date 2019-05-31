@@ -37,7 +37,7 @@
         </template>
       </template>
     </el-menu>
-    <el-button @click="toggleClick">toggleCollapse</el-button>
+    <i class="el-icon" :class="{'el-icon-s-unfold':isCollapse,'el-icon-s-fold':!isCollapse}" @click="toggleClick"></i>
   </aside>
 </template>
 
@@ -93,9 +93,11 @@ aside {
     width: 230px;
     min-height: 400px;
   }
-  .el-button{
+  .el-icon{
     position: absolute;
-    bottom: 20px;
+    bottom: 10px;
+    left:20px;
+    cursor: pointer;
   }
 }
 
