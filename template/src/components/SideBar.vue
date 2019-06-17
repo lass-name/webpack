@@ -13,7 +13,7 @@
     >
       <template v-for="(item,index) in menuList">
         <template v-if="!item.hidden">
-          <el-submenu :index="index+''" v-if="!item.leaf" :key="index">
+          <el-submenu :index="index+''" v-if="item.children && item.children.length>0" :key="index">
             <template slot="title">
               <i :class="item.icon"></i>
               <span slot="title">{{{{raw_helper}}}}{{item.name}}{{{{/raw_helper}}}}</span>
@@ -26,13 +26,9 @@
               >{{{{raw_helper}}}}{{child.name}}{{{{/raw_helper}}}}</el-menu-item>
             </template>
           </el-submenu>
-          <el-menu-item
-            v-if="item.leaf&&item.children.length>0"
-            :index="item.children[0].path"
-            :key="item.chidren[0].path"
-          >
+          <el-menu-item v-else :key="index" :index="item.path">
             <i :class="item.icon"></i>
-            {{{{raw_helper}}}}{{item.children[0].name}}{{{{/raw_helper}}}}
+            <span slot="title">{{{{raw_helper}}}}{{item.name}}{{{{/raw_helper}}}}</span>
           </el-menu-item>
         </template>
       </template>
@@ -52,10 +48,11 @@ export default {
     }
   },
   created () {
-    let data = menus
+    /* let data = menus
     this.menuList = JSON.parse(JSON.stringify(data)).filter(item => {
       return item.children.length > 0 && item
-    })
+    }) */
+    this.menuList = menus
   },
   computed: {
   },

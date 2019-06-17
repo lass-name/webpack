@@ -7,8 +7,8 @@ import App from './App'
 import router from './router'
 import store from './store'
 {{#if_eq platform "mobile"}}
-import mintUI from 'mint-ui'
-import 'mint-ui/lib/style.css'
+import Vant from 'vant'
+import 'vant/lib/index.css'
 import vueTitle from 'vue-wechat-title'
 {{/if_eq}}
 {{#if_eq platform "web"}}
@@ -16,6 +16,9 @@ import elementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import components from '@/components'
 Object.keys(components).forEach(key => {
+  if (!components[key].name) {
+    return
+  }
   Vue.component(components[key].name, components[key])
 })
 {{/if_eq}}
@@ -25,14 +28,14 @@ import * as directives from '@/directives'
 
 const setFilter = (value, type = 1) => {
   Object.keys(value).forEach(key => {
-    if (typeof value[key] === 'function') {
-      if (type === 1) {
+    if (type === 1) {
+      if (typeof value[key] === 'function') {
         Vue.filter(key, value[key])
       } else {
-        Vue.directive(key, value[key])
+        setFilter(value[key], type)
       }
     } else {
-      setFilter(value[key], type)
+      Vue.directive(key, value[key])
     }
   })
 }
@@ -41,7 +44,7 @@ setFilter(filters)
 setFilter(directives, 2)
 
 {{#if_eq platform "mobile"}}
-Vue.use(mintUI)
+Vue.use(Vant)
 Vue.use(vueTitle)
 {{/if_eq}}
 {{#if_eq platform "web"}}

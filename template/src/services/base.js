@@ -1,6 +1,6 @@
 import axios from 'axios'
 {{#if_eq platform "mobile"}}
-import {Indicator, MessageBox} from 'mint-ui'
+import {Toast, Dialog} from 'vant'
 {{/if_eq}}
 {{#if_eq platform "web"}}
 import { MessageBox } from "element-ui";
@@ -28,17 +28,32 @@ const codeMessage = {
 }
 // console.dir(codeMessage)
 axios.interceptors.request.use(config => {
+  {{#if_eq platform "mobile"}}
+  Toast.loading({message: '加载中...'})
+  {{/if_eq}}
+  {{#if_eq platform "web  "}}
   Indicator.open()
+  {{/if_eq}}
   return config
 }, error => {
   return Promise.reject(error)
 })
 
 axios.interceptors.response.use(response => {
+  {{#if_eq platform "mobile"}}
+  Toast.clear()
+  {{/if_eq}}
+  {{#if_eq platform "web"}}
   Indicator.close()
+  {{/if_eq}}
   return response
 }, error => {
+  {{#if_eq platform "mobile"}}
+  Toast.clear()
+  {{/if_eq}}
+  {{#if_eq platform "web"}}
   Indicator.close()
+  {{/if_eq}}
   return Promise.reject(error)
 })
 let baseUrl = '/api'
@@ -74,7 +89,12 @@ export default {
           router.replace({path: '/login', query: {redirect: router.currentRoute.fullPath}})
         } else {
           console.log(message)
+          {{#if_eq platform "mobile"}}
+          Dialog.alert({message: message})
+          {{/if_eq}}
+          {{#if_eq platform "web"}}
           MessageBox.alert(message)
+          {{/if_eq}}
           reject(message)
         }
       }).catch(error => {
