@@ -30,8 +30,8 @@ export const unique = (arr) => {
 }
 
 export const day = {
-  now: () => {
-    return dayjs()
+  now: (value) => {
+    return (value && dayjs(value)) || dayjs()
   },
   nowF: (format = 'YYYY-MM-DD') => {
     return dayjs().format(format)

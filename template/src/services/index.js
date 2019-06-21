@@ -15,14 +15,18 @@ requireApi.keys().forEach(fileName => {
   for (let o of obj) {
     let {url, method, argsParams} = o
     method = (method || 'get').toLowerCase()
-    let methodName = url.replace(/^\/|\/$/g, '').replace(/[\W|_]([a-zA-Z])/g, (all, letter) => {
+    let methodName = url.replace(/^\/|\/$/g, '').replace(/[\W|_]([a-zA-Z])/g, (_, letter) => {
       return letter.toUpperCase()
     })
     methods[methodName] = (commit, payload, mutation) => {
+      let _url = url
       if (method === 'get' && argsParams) {
-        url = `${url}/${payload.id || payload}`
+        _url = `${_url}/${payload.id || payload}`
       }
-      let options = request.getOptions(url, payload, o.timeout, o.proxy)
+      let options = request.getOptions(_url, payload.data || payload, o.timeout, o.proxy)
+      if(payload.params){
+        options.params = payload.params
+      }
       return request[method](commit, options, mutation)
     }
   }

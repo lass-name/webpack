@@ -1,7 +1,7 @@
 export const dataTest = [{
-  key: 1, value: 'test'
+  value: 1, label: 'test'
 }, {
-  key: 2, value: 'test2'
+  value: 2, label: 'test2'
 }]
 
 export default {

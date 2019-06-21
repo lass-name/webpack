@@ -4,8 +4,8 @@ const factory = (value, source) => {
   if (value === undefined) {
     return value
   }
-  let obj = source.find(c => `${c.key}`.trim() === `${value}`.trim())
-  return (obj && obj.value) || value
+  let obj = source.find(c => `${c.value}`.trim() === `${value}`.trim())
+  return (obj && obj.label) || value
 }
 
 let methods = {}
