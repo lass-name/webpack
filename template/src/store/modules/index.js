@@ -8,4 +8,5 @@ requireModule.keys().forEach(fileName => {
     ...requireModule(fileName).default
   }
 })
+
 export default modules
