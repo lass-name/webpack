@@ -15,7 +15,7 @@ requireApi.keys().forEach(file => {
   let _methods = {}
 
   for (let o of obj) {
-    let {url, method, argsParams} = o
+    let {url, method, argsParams} = o.options
     method = (method || 'get').toLowerCase()
     let methodName = url.replace(/^\/|\/$/g, '').replace(/[\W|_]([a-zA-Z])/g, (_, letter) => {
       return letter.toUpperCase()
@@ -25,11 +25,18 @@ requireApi.keys().forEach(file => {
       if (method === 'get' && argsParams) {
         _url = `${_url}/${payload.id || payload}`
       }
-      let options = request.getOptions(_url, payload.data || payload, o.timeout, o.proxy)
-      if(payload.params){
-        options.params = payload.params
+      let options = {}
+      let data = payload.data || payload || {}
+      if (payload.params) {
+        let { params, ...other } = payload
+        options.params = params
+        data = other
+      } else if (method === 'get' && !argsParams) {
+        options.params = payload
+        data = {}
       }
-      return request[method](commit, options, mutation)
+      options = {data, ...options, ...o.options}
+      return request.base(commit, options, mutation)
     }
   }
   methods[fileName] = _methods

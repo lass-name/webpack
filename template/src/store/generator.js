@@ -18,7 +18,7 @@ const getModules = function (obj, key = 'generator',namespace='common', actions 
   }
   Object.keys(obj).forEach(action => {
     let customActions = modules[namespace] && modules[namespace]['actions']
-    if(customActions && customActions[action]){
+    if(customActions && action in customActions){
       return
     }
     let type = typeof obj[action]

@@ -1,9 +1,9 @@
-const authorization = [
-  {
+const authorization = [{
+  desc:'接口描述信息',
+  options:{
     url: '/bill/queryCustomerRefund',
     method: 'post',
-    desc: '事例',
-    argsParams: true
+    argsParams: true,
   }
-]
+}]
 export default authorization

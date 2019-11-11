@@ -88,40 +88,22 @@ export default {
         } else if (+resultCode === 403) {
           router.replace({path: '/login', query: {redirect: router.currentRoute.fullPath}})
         } else {
-          console.log(message)
-          {{#if_eq platform "mobile"}}
-          Dialog.alert({message: message})
-          {{/if_eq}}
-          {{#if_eq platform "web"}}
-          MessageBox.alert(message)
-          {{/if_eq}}
-          reject(message)
+          if(message){
+            {{#if_eq platform "mobile"}}
+            Dialog.alert({message: message})
+            {{/if_eq}}
+            {{#if_eq platform "web"}}
+            MessageBox.alert(message)
+            {{/if_eq}}
+            reject(message)
+          } else {
+            resolve(data)
+          }
         }
       }).catch(error => {
         reject(error)
       })
     })
-  },
-  get: function (commit, options, mutation) {
-    options = {...options, ...{params: {...defaultOptions.params, ...options.data}, data: {}}}
-    return this.base(commit, options, mutation)
-  },
-  post: function (commit, options, mutation) {
-    options.method = 'post'
-    return this.base(commit, options, mutation)
-  },
-  put: function (commit, options, mutation) {
-    options.method = 'put'
-    return this.base(commit, options, mutation)
-  },
-  delete: function (commit, options, mutation) {
-    options.method = 'delete'
-    return this.base(commit, options, mutation)
-  },
-  getOptions: (url, data = {}, timeout = defaultOptions.timeout, baseURL = defaultOptions.baseURL) => {
-    timeout = timeout || defaultOptions.timeout
-    baseURL = baseURL || defaultOptions.baseURL
-    return {url, data, timeout, baseURL}
   },
   pureDataCommit: (commit, data, mutation) => {
     return new Promise((resolve, reject) => {

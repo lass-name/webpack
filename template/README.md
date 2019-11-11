@@ -17,22 +17,15 @@
 
 > 添加api调用的地址： /src/api 目录下添加(可以根据类别添加多个文件)
 ```javascript
-const authorization = [
-  {
-    url: '/user/login',     // 请求地址
-    method: 'post',         // 请求方式
-    desc: '事例',           // 描述信息（文字描述）
-    argsParams: true        // 是否param方式传递参数 (user/:userId)
-  },{
-    ...
-  },{
-    url:'/preprice-ins/files/upload/wx'        // 转换成action为：prepriceInsFilesUploadWx
-  },{
-    url: '/user?Action=UserSendSMS'            // 转换成action为：userActionUserSendSMS
-  },{
+const authorization = [{
+  desc:'接口描述信息',
+  options:{   // 请求所需的参数信息
+    url: '/bill/queryCustomerRefund',
+    method: 'post',
+    argsParams: true,
     ...
   }
-]
+}]
 export default authorization
 
 ```
