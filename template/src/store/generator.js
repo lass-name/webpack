@@ -1,7 +1,8 @@
 import service from '@/services'
+import modules from './modules'
 let module = {}
 
-const requireModule = require.context('@/store/modules', false, /^(?!\.\/index).*\.js$/)
+/* const requireModule = require.context('@/store/modules', false, /^(?!\.\/index).*\.js$/)
 const modules = {}
 
 requireModule.keys().forEach(fileName => {
@@ -10,7 +11,7 @@ requireModule.keys().forEach(fileName => {
     // namespaced: true,
     ...requireModule(fileName).default
   }
-})
+}) */
 
 const getModules = function (obj, key = 'generator',namespace='common', actions = {}) {
   if (obj === undefined) {
