@@ -67,6 +67,7 @@ const defaultOptions = {
 export default {
   base: (commit, options, mutation) => {
     options.headers = {token: storage.getItem('t') || ''}
+    options.baseURL = options.baseURL || baseUrl
     return new Promise((resolve, reject) => {
       axios({...defaultOptions, ...options}).then(response => {
         if (response.status >= 200 && response.status < 300) {

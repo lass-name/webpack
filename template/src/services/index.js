@@ -21,21 +21,23 @@ requireApi.keys().forEach(file => {
       return letter.toUpperCase()
     })
     _methods[methodName] = (commit, payload, mutation) => {
+      let options = {}
       let _url = url
       if (method === 'get' && argsParams) {
         _url = `${_url}/${payload.id || payload}`
+        options.url = _url
       }
-      let options = {}
+      
       let data = payload.data || payload || {}
       if (payload.params) {
         let { params, ...other } = payload
         options.params = params
         data = other
       } else if (method === 'get' && !argsParams) {
-        options.params = payload
+        options.params = {...data}
         data = {}
       }
-      options = {data, ...options, ...o.options}
+      options = {data, ...o.options, ...options}
       return request.base(commit, options, mutation)
     }
   }

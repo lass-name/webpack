@@ -4,6 +4,7 @@ const authorization = [{
     url: '/bill/queryCustomerRefund',
     method: 'post',
     argsParams: true,
+    baseURL: ''
   }
 }]
 export default authorization
