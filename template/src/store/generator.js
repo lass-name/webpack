@@ -1,4 +1,4 @@
-import service from '@/services'
+import service, {methods} from '@/services'
 import modules from './modules'
 let module = {}
 
@@ -37,5 +37,5 @@ const getModules = function (obj, key = 'generator',namespace='common', actions 
   
 }
 
-getModules(service)
+getModules(methods)
 export default module

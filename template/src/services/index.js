@@ -45,4 +45,8 @@ requireApi.keys().forEach(file => {
 })
 services = {...methods, ...services}
 
+export {
+  methods
+}
+
 export default services
