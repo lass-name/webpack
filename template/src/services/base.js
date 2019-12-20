@@ -46,7 +46,13 @@ axios.interceptors.response.use(response => {
   {{#if_eq platform "web"}}
   Indicator.close()
   {{/if_eq}}
-  return response
+  if (response.status >= 200 && response.status < 300) {
+    return response
+  }
+  const errortext = codeMessage[response.status] || response.statusText
+  const error = new Error(errortext)
+  error.name = response.status
+  throw error 
 }, error => {
   {{#if_eq platform "mobile"}}
   Toast.clear()
@@ -70,13 +76,7 @@ export default {
     options.baseURL = options.baseURL || baseUrl
     return new Promise((resolve, reject) => {
       axios({...defaultOptions, ...options}).then(response => {
-        if (response.status >= 200 && response.status < 300) {
-          return response
-        }
-        const errortext = codeMessage[response.status] || response.statusText
-        const error = new Error(errortext)
-        error.name = response.status
-        throw error
+        return response
       }).then(({data}) => {
         let {resultCode, message, ResultCode} = data
         if (+resultCode === 1 || ResultCode === 0) {

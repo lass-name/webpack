@@ -1,19 +1,8 @@
-import service, {methods} from '@/services'
+import service, {methods, generatorVuex} from '@/services'
 import modules from './modules'
-let module = {}
+let generatorModule = {}
 
-/* const requireModule = require.context('@/store/modules', false, /^(?!\.\/index).*\.js$/)
-const modules = {}
-
-requireModule.keys().forEach(fileName => {
-  const moduleName = fileName.replace(/\.\/|\.js/g, '')
-  modules[moduleName] = {
-    // namespaced: true,
-    ...requireModule(fileName).default
-  }
-}) */
-
-const getModules = function (obj, key = 'generator',namespace='common', actions = {}) {
+const getModules = function (obj, key = 'generator',namespace='common', module = {}) {
   if (obj === undefined) {
     return
   }
@@ -24,18 +13,29 @@ const getModules = function (obj, key = 'generator',namespace='common', actions 
     }
     let type = typeof obj[action]
     if (type === 'function') {
-      actions[action] = ({commit}, payload) => {
-        return service[namespace][action](commit, payload)
+      let _mutationType = ''
+      if (generatorVuex && generatorVuex[namespace] && action in generatorVuex[namespace]) {
+        let { _state, getter, mutationType } = generatorVuex[namespace][action]
+        _mutationType = mutationType
+        module.mutations[mutationType] = (state, data) => {
+          state[_state] = data
+        }
+        module.state[_state] = {}
+        module.getters[getter] = (state) => {
+          return state[_state]
+        }
+      }
+
+      module.actions[action] = ({commit}, payload) => {
+        return service[namespace][action](commit, payload, _mutationType)
       }
     } else if (type === 'object') {
       getModules(obj[action], action, action)
     }
   })
-  if(Object.keys(actions).length){
-    module[key] = {actions}
-  }
+  generatorModule[key] = module
   
 }
 
 getModules(methods)
-export default module
+export default generatorModule
