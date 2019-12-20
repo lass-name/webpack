@@ -23,18 +23,57 @@ const authorization = [{
     url: '/bill/queryCustomerRefund',
     method: 'post',
     argsParams: true,
+    baseURL: ''
     ...
+  },
+  vuex: {
+    state: '',
+    getter: '',
+    mutationType: ''
   }
 }]
 export default authorization
 
+/**
+ * options: 表示请求需要传递的参数 (可接受axios库的所有请求参数（options）)
+ *  - url:请求地址
+ *  - method：请求方式（默认get）
+ *  - baseURL：请求的配置代理 （默认‘/api'）
+ *  - argsParams：请求参数是params传递 （baseURL/url/xx）默认get请求是 query方式 （默认值 false）
+ * vuex：是否生成vuex的代码（默认false，method='get'）get请求默认 true
+ *  - state：定义存储在state中的变量名 （默认同mutationType）
+ *  - getter：定义存储在getter中的变量名（默认同 state 变量）
+ *  - mutationType：操作state值的函数名称定义（默认 同生成的action名称的大写格式 譬如：INSCOVERAGES_LIST）
+*/
+
+如觉得自动生成的vuex代码不合适也可自定义覆盖：（写覆盖代码需要主要几个准则，如下）
+1.自定义的modules中的文件名需和api文件夹中文件名一致；（使用了命名空间）
+2.自定义的action需和需要覆盖的自动生成的名称一致；
+  > 名称生成规则如下：
+  > url:'/user/login'(或'/user/login?action=check')
+  > 生成的action名称为：userLogin (或userLoginActionCheck)
+
 ```
+
 
 >在页面中调用api函数，使用方法：（在.vue页面中使用方法）
 ```javascript
 this.$store.dispatch('userLogin',{}).then(data=>{
   console.log(data)
 })
+
+如何获取vuex的getters
+默认情况下：getter名称是根据请求url来自动生成的，如下：
+  > url:'user/login' (或'/user/login?action=check')
+  > 生成的getter名称为：USER_LOGIN (或 USER_LOGIN_ACTION_CHECK)
+
+computed:{
+  ...mapGetter([
+    'USER_LOGIN',
+    'USER_LOGIN_ACTION_CHECK'
+  ])
+}
+
 ```
 
 ## Build Setup
