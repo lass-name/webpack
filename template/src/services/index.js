@@ -2,6 +2,10 @@ import request from './base'
 const requireContext = require.context('.', false, /\.js$/)
 let services = {}
 
+const regex = /^\/|\/$/g
+const isObject = (val)=>{
+  return val && Object.prototype.toString.call(val)==='[object Object]'
+}
 requireContext.keys().forEach(file => {
   if (file === './index.js' || file === './base.js') return
   services = {...services, ...requireContext(file).default}
@@ -20,12 +24,12 @@ requireApi.keys().forEach(file => {
     let {url, method, argsParams} = item.options
     let vuex = item.vuex
     method = (method || 'get').toLowerCase()
-    let methodName = url.replace(/^\/|\/$/g, '').replace(/[\W|_]([a-zA-Z])/g, (_, letter) => {
+    let methodName = url.replace(regex, '').replace(/[\W|_]([a-zA-Z])/g, (_, letter) => {
       return letter.toUpperCase()
     })
     _methods[methodName] = (commit, payload, mutation) => {
       let options = {}
-      let _url = url
+      let _url = `/${url.replace(regex,'')}`
       if (method === 'get' && argsParams) {
         _url = `${_url}/${payload.id || payload}`
         options.url = _url
@@ -40,11 +44,15 @@ requireApi.keys().forEach(file => {
         options.params = {...data}
         data = {}
       }
+      if(options.baseURL){
+        options.baseURL = `/${options.baseURL.replace(regex,'')}`
+      }
+      options.url = `/${options.url.replace(regex,'')}`
       options = {data, ...item.options, ...options}
       return request.base(commit, options, mutation)
     }
     if (vuex || (vuex !== false && method === 'get')) {
-      let _mutationType = url.replace(/^\/|\/$/g, '').replace(/\W/g, '_').toUpperCase()
+      let _mutationType = url.replace(regex, '').replace(/\W/g, '_').toUpperCase()
       let state = (vuex && vuex.state) || _mutationType
       let getter = (vuex && vuex.getter) || _mutationType
       let mutationType = (vuex && vuex.mutationType) || _mutationType
