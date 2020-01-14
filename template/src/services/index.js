@@ -3,9 +3,9 @@ const requireContext = require.context('.', false, /\.js$/)
 let services = {}
 
 const regex = /^\/|\/$/g
-const isObject = (val)=>{
+/* const isObject = (val)=>{
   return val && Object.prototype.toString.call(val)==='[object Object]'
-}
+} */
 requireContext.keys().forEach(file => {
   if (file === './index.js' || file === './base.js') return
   services = {...services, ...requireContext(file).default}
@@ -21,7 +21,7 @@ requireApi.keys().forEach(file => {
   let tempVuex = {}
 
   for (let item of apiObject) {
-    let {url, method, argsParams} = item.options
+    let {url, method, argsParams,baseURL} = item.options
     let vuex = item.vuex
     method = (method || 'get').toLowerCase()
     let methodName = url.replace(regex, '').replace(/[\W|_]([a-zA-Z])/g, (_, letter) => {
@@ -32,11 +32,11 @@ requireApi.keys().forEach(file => {
       let _url = `/${url.replace(regex,'')}`
       if (method === 'get' && argsParams) {
         _url = `${_url}/${payload.id || payload}`
-        options.url = _url
       }
+      options.url = _url
       
-      let data = payload.data || payload || {}
-      if (payload.params) {
+      let data = (payload && payload.data) || payload || {}
+      if (payload && payload.params) {
         let { params, ...other } = payload
         options.params = params
         data = other
@@ -44,10 +44,10 @@ requireApi.keys().forEach(file => {
         options.params = {...data}
         data = {}
       }
-      if(options.baseURL){
-        options.baseURL = `/${options.baseURL.replace(regex,'')}`
+      if(baseURL){
+        options.baseURL = `/${baseURL.replace(regex,'')}`
       }
-      options.url = `/${options.url.replace(regex,'')}`
+
       options = {data, ...item.options, ...options}
       return request.base(commit, options, mutation)
     }

@@ -2,7 +2,7 @@ import service, {methods, generatorVuex} from '@/services'
 import modules from './modules'
 let generatorModule = {}
 
-const getModules = function (obj, key = 'generator',namespace='common', module = {}) {
+const getModules = function (obj, key = 'generator',namespace='common', module = {actions: {}, mutations: {}, getters: {}, state: {}}) {
   if (obj === undefined) {
     return
   }
