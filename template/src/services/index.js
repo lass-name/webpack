@@ -27,6 +27,10 @@ requireApi.keys().forEach(file => {
     let methodName = url.replace(regex, '').replace(/[\W|_]([a-zA-Z])/g, (_, letter) => {
       return letter.toUpperCase()
     })
+
+    if (methodName in _methods) {
+      methodName = `${method}${methodName.substring(0, 1).toUpperCase()}${methodName.substring(1)}`
+    }
     _methods[methodName] = (commit, payload, mutation) => {
       let options = {}
       let _url = `/${url.replace(regex,'')}`
