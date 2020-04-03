@@ -1,4 +1,4 @@
-import enumData from '@/data/enum'
+import enumData from '@/data'
 
 const factory = (value, source) => {
   if (value === undefined) {

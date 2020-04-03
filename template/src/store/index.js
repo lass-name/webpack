@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 import modules from './modules'
 import service from '@/services'
 import * as types from './mutation-type'
@@ -46,7 +47,10 @@ const store = new Vuex.Store({
   getters,
   actions,
   mutations,
-  modules: generatorModules
+  modules: generatorModules,
+  plugins: createPersistedState({
+    storage: window.sessionStorage
+  })
 })
 
 export default store

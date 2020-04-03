@@ -1,5 +1,5 @@
 import { regex } from '@/utils/regex'
-import { data } from '@/utils/enum'
+import { data } from '@/utils/data'
 /**
  * 过滤器
  * 全局过滤器定义
