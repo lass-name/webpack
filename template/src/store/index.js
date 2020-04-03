@@ -4,38 +4,47 @@ import createPersistedState from 'vuex-persistedstate'
 import modules from './modules'
 import service from '@/services'
 import * as types from './mutation-type'
-import { storage } from '@/utils'
 import generator from './generator'
 
 Vue.use(Vuex)
 
 // state
 const state = {
-  commonData: (storage.getItem('commonData') && JSON.parse(storage.getItem('commonData'))) || {}
+  commonData: {}, // (storage.getItem('commonData') && JSON.parse(storage.getItem('commonData'))) || {},
+  activedData: {}
 }
 
 // getters
 const getters = {
-  commonData: state => state.commonData
+  commonData: state => state.commonData,
+  activedData: state => state.activedData
 }
 
 // actions
 const actions = {
-  pureDataTransmit: ({commit}, payload) => {
+  setCommon: ({commit}, payload) => {
     return service.dataCommit(commit, payload, types.COMMIT_PURE_DATA)
+  },
+  resetCommon: ({commit}, payload) => {
+    return service.dataCommit(commit, payload, types.RESET_COMMIT_PURE_DATA)
+  },
+  setActive: ({commit}, payload) => {
+    return service.dataCommit(commit, payload, types.SET_ACTIVETED_DATA)
   }
 }
 
 // mutations
 const mutations = {
   [types.COMMIT_PURE_DATA] (state, data) {
-    if ((data.value && !data.value.ResultCode) || !!data.reset) {
-      state.commonData[data.key || 'nokey'] = data.value
-      let save = data.save === undefined || !!data.save
-      if (save) { // 本地存储
-        storage.setItem('commonData', JSON.stringify(state.commonData))
-      }
+    if (data.value || data.key) {
+      state.commonData[data.key || 'nokey'] = data.value || data
     }
+  },
+  [types.RESET_COMMIT_PURE_DATA] (state) {
+    state.commonData = {}
+  },
+  [types.SET_ACTIVETED_DATA] (state, data) {
+    state.activedData = data.value || data || ''
   }
 }
 
