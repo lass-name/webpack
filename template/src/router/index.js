@@ -12,14 +12,17 @@ requireRouter.keys().forEach(fileName => {
 
 let router = new Router({
   mode: 'history',
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'layout',
       component: () => import('@/views/layout'),
       children: _routers
-    }
-  ],
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/login'),
+    }],
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
