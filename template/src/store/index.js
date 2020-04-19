@@ -36,15 +36,15 @@ const actions = {
 // mutations
 const mutations = {
   [types.COMMIT_PURE_DATA] (state, data) {
-    if (data.value || data.key) {
-      state.commonData[data.key || 'nokey'] = data.value || data
+    if (data) {
+      state.commonData[data.key || 'nokey'] = data.value === undefined ? data : data.value
     }
   },
   [types.RESET_COMMIT_PURE_DATA] (state) {
     state.commonData = {}
   },
   [types.SET_ACTIVETED_DATA] (state, data) {
-    state.activedData = data.value || data || ''
+    state.activedData = data.value === undefined ? data : data.value
   }
 }
 

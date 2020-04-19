@@ -109,8 +109,8 @@ export default {
   pureDataCommit: (commit, data, mutation) => {
     return new Promise((resolve, reject) => {
       mutation && commit(mutation, data)
-      let dval = (data && data.value) ? data.value : ''
-      resolve(dval)
+      // let dval = (data && data.value !== undefined) ? data.value : ''
+      resolve(data)
     })
   }
 }
