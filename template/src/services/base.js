@@ -72,7 +72,11 @@ const defaultOptions = {
 
 export default {
   base: (commit, options, mutation) => {
-    options.headers = {token: storage.getItem('t') || ''}
+    let _token = router.currentRoute.query.token
+    let __token = storage.getItem('token') || '' 
+    if(_token || __token){
+      options.headers = {...options.headers, token: _token || __token}
+    }
     options.baseURL = options.baseURL || baseUrl
     return new Promise((resolve, reject) => {
       axios({...defaultOptions, ...options}).then(response => {

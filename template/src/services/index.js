@@ -21,7 +21,7 @@ requireApi.keys().forEach(file => {
   let tempVuex = {}
 
   for (let item of apiObject) {
-    let {url, method, argsParams,baseURL} = item.options
+    let {url, method, argsParams, baseURL, headers} = item.options
     let vuex = item.vuex
     method = (method || 'get').toLowerCase()
     let methodName = url.replace(regex, '').replace(/[\W|_]([a-zA-Z])/g, (_, letter) => {
@@ -52,7 +52,14 @@ requireApi.keys().forEach(file => {
         options.baseURL = `/${baseURL.replace(regex,'')}`
       }
 
-      options = {data, ...item.options, ...options}
+      options = {...item.options, ...options}
+      if(Object.keys(data).length){
+        options = {data, ...options}
+      }
+      if(headers){
+        options = {...options, headers}
+      }
+      
       return request.base(commit, options, mutation)
     }
     if (vuex || (vuex !== false && method === 'get')) {
