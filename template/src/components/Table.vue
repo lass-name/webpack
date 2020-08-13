@@ -1,6 +1,6 @@
 <template>
-  <div class="ybl-table" :class="{'mutil-rows':$attrs.mutil}">
-    <el-table :data="data" v-bind="$attrs" v-on="$listeners">
+  <div class="ybl-table" :class="{'mutil-rows':$attrs.mutil,'nowrap':$attrs.nowrap}">
+    <el-table :data="data" v-bind="$attrs" v-on="$listeners" :max-height="maxHeight">
       <slot></slot>
     </el-table>
     <div class="ybl-table__page" v-if="total>10">
@@ -28,16 +28,23 @@ export default {
   },
   data () {
     return {
-      maxHeight: 500
+      calcHeight: 1500
     }
   },
   mounted () {
     //  :max-height="maxHeight"
-    let height = document.documentElement.clientHeight
-    this.$nextTick(() => {
-      this.maxHeight = height - 180
-    })
-  }
+    if(this.$attrs['max-height'] === undefined){
+      let height = document.documentElement.clientHeight
+      this.$nextTick(() => {
+        this.calcHeight = height - 180
+      })
+    }
+  },
+  computed: {
+    maxHeight () {
+      return this.$attrs['max-height'] === undefined ? this.calcHeight : (this.$attrs['max-height'] || this.calcHeight)
+    }
+  },
 }
 </script>
 
@@ -54,11 +61,24 @@ export default {
     .el-table__header{
       th{
         padding: 0;
+        .cell{
+          line-height: 16px;
+        }
+      }
+    }
+  }
+  &.nowrap{
+    .el-table__header{
+      th .cell{
+        white-space: nowrap;
       }
     }
   }
   .el-table__expanded-cell{
     padding: 0;
+  }
+  .el-table__placeholder{
+    margin-right: 3px;
   }
 }
 </style>
