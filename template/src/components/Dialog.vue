@@ -1,36 +1,19 @@
 <template>
   <el-dialog
-    :title="title"
-    :visible.sync="visible"
-    :width="width"
     :before-close="handleClose"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
-    :top='top' custom-class="custom-dialog">
+    custom-class="custom-dialog" v-bind="$attrs" v-on="$listeners" :append-to-body="isInner">
     <slot></slot>
     <template slot="footer" v-if="showFooter">
       <span class="footer__tips">
         <slot name="tips"></slot>
       </span>
       <slot name="actions">
-        <el-button @click="close">取 消</el-button>
-        <el-button type="primary" @click="confirm">确 定</el-button>
+        <el-button @click="close">{{$attrs.cancelButtonText || '取 消'}}</el-button>
+        <el-button type="primary" @click="confirm">{{$attrs.confirmButtonText || '确 定'}}</el-button>
       </slot>
     </template>
-    <el-dialog
-      :width="width"
-      :title="innerTitle"
-      :visible.sync="innerVisible"
-      :before-close="innerClose"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      append-to-body>
-      <slot name="inner"></slot>
-      <template slot="footer">
-        <el-button @click="innerClose">取 消</el-button>
-        <el-button type="primary" @click="innerConfirm">确 定</el-button>
-      </template>
-    </el-dialog>
   </el-dialog>
 </template>
 
@@ -38,47 +21,16 @@
 export default {
   name: 'yblDialog',
   props: {
-    visible: {
-      type: Boolean,
-      default: function () {
-        return false
-      }
-    },
-    title: {
-      type: String,
-      default: function () {
-        return '系统提示'
-      }
-    },
-    width: {
-      type: String | Number,
-      default: function () {
-        return '50%'
-      }
-    },
-    top: {
-      type: String | Number,
-      default: function () {
-        return '5vh'
-      }
-    },
     showFooter: {
       type: Boolean,
       default: function () {
         return true
       }
-    },
-    innerTitle: {
-      type: String,
-      default: function () {
-        return '系统提示'
-      }
-    },
-    innerVisible: {
-      type: Boolean,
-      default: function () {
-        return false
-      }
+    }
+  },
+  computed:{
+    isInner(){
+      return this.$attrs.isInner || this.$attrs['append-to-body']
     }
   },
   methods: {
@@ -90,14 +42,23 @@ export default {
     },
     confirm () {
       this.$emit('confirm')
-    },
-    innerClose () {
-      this.$emit('inner-close')
-    },
-    innerConfirm () {
-      this.$emit('inner-confirm')
     }
   }
+
+  /* 
+  * use like this :
+  * 
+  <ybl-dialog :visible.sync="dialog.visible" :title="dialog.title" @close="close" @confirm="submit" confirmButtonText="提交">
+    <el-button @click="innerOpen">OpenInner</el-button>
+    <ybl-dialog :visible.sync="dialog.innerVisible" :title="dialog.innerTitle" @close="innerClose" cancelButtonText="返回" append-to-body>
+      inner
+      <template #actions>
+        <el-button>自定义</el-button>
+      </template>
+    </ybl-dialog>
+  </ybl-dialog> 
+  *
+  */
 }
 </script>
 
