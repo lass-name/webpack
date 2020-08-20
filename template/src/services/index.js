@@ -1,3 +1,4 @@
+import qs from 'qs'
 import request from './base'
 const requireContext = require.context('.', false, /\.js$/)
 let services = {}
@@ -21,7 +22,7 @@ requireApi.keys().forEach(file => {
   let tempVuex = {}
 
   for (let item of apiObject) {
-    let {url, method, argsParams, baseURL, headers} = item.options
+    let {url, method, argsParams, baseURL, headers, formdata} = item.options
     let vuex = item.vuex
     method = (method || 'get').toLowerCase()
     let methodName = url.replace(regex, '').replace(/[\W|_]([a-zA-Z])/g, (_, letter) => {
@@ -54,6 +55,9 @@ requireApi.keys().forEach(file => {
 
       options = {...item.options, ...options}
       if(Object.keys(data).length){
+        if(formdata){
+          data = qs.stringify(data)
+        }
         options = {data, ...options}
       }
       if(headers){
