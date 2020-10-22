@@ -10,8 +10,8 @@
         <slot name="tips"></slot>
       </span>
       <slot name="actions">
-        <el-button @click="close">{{$attrs.cancelButtonText || '取 消'}}</el-button>
-        <el-button type="primary" @click="confirm">{{$attrs.confirmButtonText || '确 定'}}</el-button>
+        <el-button @click="close">{{($attrs.cancelButtonText || '取 消')}}</el-button>
+        <el-button type="primary" @click="confirm">{{($attrs.confirmButtonText || '确 定')}}</el-button>
       </slot>
     </template>
   </el-dialog>
