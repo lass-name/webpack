@@ -10,8 +10,8 @@
         <slot name="tips"></slot>
       </span>
       <slot name="actions">
-        <el-button @click="close">{{($attrs.cancelButtonText || '取 消')}}</el-button>
-        <el-button type="primary" @click="confirm">{{($attrs.confirmButtonText || '确 定')}}</el-button>
+        <el-button @click="close">{{cancelButtonText}}</el-button>
+        <el-button type="primary" @click="confirm">{{confirmButtonText}}</el-button>
       </slot>
     </template>
   </el-dialog>
@@ -31,6 +31,12 @@ export default {
   computed:{
     isInner(){
       return this.$attrs.isInner || this.$attrs['append-to-body']
+    },
+    cancelButtonText(){
+      return this.$attrs.cancelButtonText || '取 消'
+    },
+    confirmButtonText(){
+      return this.$attrs.confirmButtonText || '确 定'
     }
   },
   methods: {
