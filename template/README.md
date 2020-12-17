@@ -6,11 +6,11 @@
 
 >修改代理配置地址：/config/index.js
 ```javascript
-'/api': {
+'/openapi': {
   target: 'http://xxxx.api.com',  // 此处替换成真实的api地址
   changeOrigin: true,
   pathRewrite: {
-    '^/api': ''
+    '^/openapi': ''
   }
 }
 ```
@@ -113,6 +113,7 @@ export default {
 ```
 
 >基础的表单验证规则已配置（如规则不满足请在目录@/uitls/form.js文件下补充），使用规则如下（此规则只使用于PC端）：
+>移动端的form验证规则参考login页面的处理方式
 
 ```
 
