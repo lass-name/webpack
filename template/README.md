@@ -78,6 +78,105 @@ computed:{
 
 ```
 
+>基础数据的配置 主要在根目录的/data文件夹下（建议不同模块创建不同文件），格式如下：
+
+```
+
+export const dataTest = [{
+  value: 1, label: 'test'
+}, {
+  value: 2, label: 'test2'
+}]
+
+export default {
+  dataTest
+}
+
+或者
+
+export const jobNum = {
+  jobNumStatus: [{
+    value: 0, label: '全部'}, {
+    value: 2, label: '正常'}, {
+    value: 9, label: '禁用'
+  }]
+}
+
+export default {
+  jobNum
+}
+
+配置的基础数据可以自动生成过滤器（尽量避免key值重复），使用方式如下：
+
+{{ status | jobNumStatus}}
+
+```
+
+>基础的表单验证规则已配置（如规则不满足请在目录@/uitls/form.js文件下补充），使用规则如下（此规则只使用于PC端）：
+
+```
+
+import formVaild from '@/utils/form'
+...
+
+rules: {
+  mobile: [{required: true, message: '请输入联系电话'}, {validator: formVaild.validTelphone, message: '请输入合法的联系电话'}],
+}
+
+```
+
+>路由配置直接在router目录添加不同模块的路由文件即可，如下：
+
+```
+
+const routes = [{
+  path: '/demo',
+  component: () => import('@/views/demo'),
+  name: 'demo',
+  meta: {
+    title: '模版事例-分页'
+  }
+}]
+
+export default routes
+
+如新增路由无需模版页配置，请在根目录下index.js文件添加，如下：
+
+routes: [{
+  ...
+}, {
+  path: '/login',
+  name: 'login',
+  component: () => import('@/views/login')
+}]
+
+```
+
+>页面样式配置使用（基础样式维护在@/assets/less/*目录下）：
+
+```
+
+color.less 文件主要存储的是全局的颜色值变量（如有新的色值建议维护在全局中），可以在页面使用;
+index.less 文件主要是预定义了一些基础的样式，可以在页面中直接使用（框架已经默认引用，无需重复引用）
+
+使用方式：
+
+<style lang="less">
+@import url('../assets/less/color.less');
+.header {
+  height: 60px;
+  line-height: 60px;
+  background: @white-color;
+  color: @primary-color;
+}  
+</style>
+
+/** index.less example */
+<div class="center">基础的居中样式</div>
+
+```
+
+
 ## Build Setup
 
 ``` bash
