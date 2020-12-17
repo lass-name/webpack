@@ -10,6 +10,7 @@ import store from './store'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 import vueTitle from 'vue-wechat-title'
+import '@/utils/form'
 {{/if_eq}}
 {{#if_eq platform "web"}}
 import elementUI from 'element-ui'
