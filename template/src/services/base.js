@@ -28,12 +28,14 @@ const codeMessage = {
 }
 // console.dir(codeMessage)
 axios.interceptors.request.use(config => {
+  if (config.showLoading === true || config.showLoading === undefined) {
   {{#if_eq platform "mobile"}}
   Toast.loading({message: '加载中...'})
   {{/if_eq}}
   {{#if_eq platform "web  "}}
   Indicator.open()
   {{/if_eq}}
+  }
   return config
 }, error => {
   return Promise.reject(error)
@@ -62,7 +64,7 @@ axios.interceptors.response.use(response => {
   {{/if_eq}}
   return Promise.reject(error)
 })
-let baseUrl = '/api'
+let baseUrl = '/openapi'
 
 const defaultOptions = {
   baseURL: baseUrl,
