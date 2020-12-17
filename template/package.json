@@ -31,6 +31,7 @@
     "axios": "^0.18.0",
     {{#if_eq platform "mobile"}}
     "vant": "^2.11.2",
+    "vee-validate": "^3.4.5",
     "vue-wechat-title":"2.0.5",
     {{/if_eq}}
     {{#if_eq platform "web"}}
