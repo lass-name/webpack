@@ -11,6 +11,10 @@ yarn-error.log*
 /test/e2e/reports/
 selenium-debug.log
 {{/e2e}}
+/src/data/menus/
+/src/data/enum.js
+/src/views/demo/
+/src/router/demo.js
 
 # Editor directories and files
 .idea
