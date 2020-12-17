@@ -108,7 +108,7 @@ export default {
 
 配置的基础数据可以自动生成过滤器（尽量避免key值重复），使用方式如下：
 
-{{ status | jobNumStatus}}
+`{{ status | jobNumStatus}}`
 
 ```
 
