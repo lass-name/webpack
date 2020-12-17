@@ -15,6 +15,7 @@ import vueTitle from 'vue-wechat-title'
 import elementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import components from '@/components'
+import '@/assets/less/index.less'
 Object.keys(components).forEach(key => {
   if (!components[key].name) {
     return
