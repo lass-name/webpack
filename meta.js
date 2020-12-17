@@ -192,7 +192,9 @@ module.exports = {
     // 'src/router/**/*': 'router',
     'src/components/**/**':"platform==='web'",
     'src/views/demo/**':"platform==='web'",
-    'src/router/demo.js':"platform==='web'"
+    'src/router/demo.js':"platform==='web'",
+    'src/data/menus/**':"platform==='web'",
+    'src/data/enum.js':"platform==='web'"
   },
   complete: function(data, { chalk }) {
     const green = chalk.green
