@@ -2,11 +2,11 @@
   <el-card class="box-card" v-bind="$attrs">
     <div slot="header" class="clearfix" v-if="header">
       <slot name="title">
-        <span>\{\{title\}\}</span>
+        <span>\{{title}}</span>
       </slot>
       <div class="right">
         <slot name="actions">
-          <el-button type="text" @click="actionEvent">{{{actionText}}}</el-button>
+          <el-button type="text" @click="actionEvent">\{{actionText}}</el-button>
         </slot>
       </div>
     </div>
