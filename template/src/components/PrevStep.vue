@@ -1,7 +1,7 @@
 <template>
   <div class="center prev-step">
     <slot name="left"></slot>
-    <el-button type="default" @click="goPrev" v-if="showBack">{{backButtonText}}</el-button>
+    <el-button type="default" @click="goPrev" v-if="showBack">\{{backButtonText}}</el-button>
     <slot></slot>
   </div>
 </template>
