@@ -6,7 +6,7 @@
       </slot>
       <div class="right">
         <slot name="actions">
-          <el-button type="text" @click="actionEvent">{{actionText}}</el-button>
+          <el-button type="text" @click="actionEvent">{{!-- actionText }} --}}</el-button>
         </slot>
       </div>
     </div>
