@@ -10,8 +10,10 @@
         <slot name="tips"></slot>
       </span>
       <slot name="actions">
+        {{#if_eq platform "web"}}
         <el-button @click="close">{{cancelButtonText}}</el-button>
         <el-button type="primary" @click="confirm">{{confirmButtonText}}</el-button>
+        {{/if_eq}}
       </slot>
     </template>
   </el-dialog>
