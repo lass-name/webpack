@@ -11,6 +11,7 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 import vueTitle from 'vue-wechat-title'
 import '@/utils/form'
+import '@/assets/less/index.less'
 {{/if_eq}}
 {{#if_eq platform "web"}}
 import elementUI from 'element-ui'
