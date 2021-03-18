@@ -10,79 +10,42 @@ const validInput = (value, callback, reg) => {
 }
 
 
-export const formValid = {
-  validNameCN: (rule, value, callback) => {
-    validInput(value, callback, regex.realName)
-  },
-  validSceneName: (rule, value, callback) => {
-    validInput(value, callback, regex.sceneName)
-  },
-  validInputCN: (rule, value, callback) => {
-    validInput(value, callback, regex.inputCN)
-  },
-  validPoint: (rule, value, callback) => {
-    validInput(value, callback, regex.floatNumber)
-  },
-  validPointNoZero: (rule, value, callback) => {
-    if (!value) {
-      callback()
-    }
-    if (+value > 0) {
-      validInput(value, callback, regex.floatNumber)
-    } else {
-      return callback(new Error('请输入大于0的数字'))
-    }
-  },
-  validMobile: (rule, value, callback) => {
-    validInput(value, callback, regex.mobile)
-  },
-  validPhone: (rule, value, callback) => {
-    validInput(value, callback, regex.phone)
-  },
-  validTelphone: (rule, value, callback) => {
-    validInput(value, callback, regex.phoneAndMobile)
-  },
-  validNumber: (rule, value, callback) => {
-    validInput(value, callback, regex.number)
-  },
-  validInput100: (rule, value, callback) => {
-    validInput(value, callback, regex.input100)
-  },
-  validInputSpace100: (rule, value, callback) => {
-    validInput(value, callback, regex.inputspace100)
-  },
-  validIdCard: (rule, value, callback) => {
-    let message = (value && checkIdCard(value.toUpperCase())) || ''
-    if (message === '' || message === '验证通过') {
-      callback()
-    } else {
-      return callback(new Error(message))
-    }
-  },
-  validAccount: (rule, value, callback) => {
-    validInput(value, callback, regex.accountNum)
-  },
-  validCorpNumber: (rule, value, callback) => {
-    validInput(value, callback, regex.corpNumber)
-  },
-  validCorpNumber50: (rule, value, callback) => {
-    validInput(value, callback, regex.corpNumber50)
-  },
-  validXingYeNumber: (rule, value, callback) => {
-    validInput(value, callback, regex.xingyeAccount)
-  },
-  validPassword: (rule, value, callback) => {
-    validInput(value, callback, regex.password)
+const validIdCard= (rule, value, callback) => {
+  let message = (value && checkIdCard(value.toUpperCase())) || ''
+  if (message === '' || message === '验证通过') {
+    callback()
+  } else {
+    return callback(new Error(message))
   }
 }
 
-export const fieldValid = {
-  account: (value) => {
-    return (value && regex.accountNum.test(value)) || false
+let form = {}
+let field = {}
+Object.keys(regex).forEach(key => {
+  let _key = key.replace(/\b(\w)(\w*)/g, ($0, $1, $2) => {
+    return $1.toUpperCase() + $2
+  })
+  // console.log('_key = ', _key)
+  form[`valid${_key}`] = (rule, value, callback) => {
+    validInput(value, callback, regex[key])
   }
-}
+  field[`valid${_key}`] = (value)=>{
+    return (value!=='' && regex[key].test(value)) || false
+  }
+})
 
-export default formValid
+form.validIdCard = validIdCard
+field.validIdCard = validIdCard
+// form表单验证
+export const formValid = form
+// 基本字段验证
+export const fieldValid = field
+
+
+export default {
+  formValid,
+  fieldValid
+}
 {{/if_eq}}
 {{#if_eq platform "mobile"}}
 import { extend, localize } from 'vee-validate'
