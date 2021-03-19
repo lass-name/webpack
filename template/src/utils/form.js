@@ -9,13 +9,14 @@ const validInput = (value, callback, reg) => {
   callback()
 }
 
-
-const validIdCard= (rule, value, callback) => {
-  let message = (value && checkIdCard(value.toUpperCase())) || ''
-  if (message === '' || message === '验证通过') {
-    callback()
-  } else {
-    return callback(new Error(message))
+const customValid = {
+  validIdCard: (rule, value, callback) => {
+    let message = (value && checkIdCard(value.toUpperCase())) || ''
+    if (message === '' || message === '验证通过') {
+      callback()
+    } else {
+      return callback(new Error(message))
+    }
   }
 }
 
@@ -25,17 +26,17 @@ Object.keys(regex).forEach(key => {
   let _key = key.replace(/\b(\w)(\w*)/g, ($0, $1, $2) => {
     return $1.toUpperCase() + $2
   })
-  // console.log('_key = ', _key)
   form[`valid${_key}`] = (rule, value, callback) => {
-    validInput(value, callback, regex[key])
+    let _regex = rule.regex || regex[key]
+    validInput(value, callback, _regex)
   }
   field[`valid${_key}`] = (value)=>{
     return (value!=='' && regex[key].test(value)) || false
   }
 })
 
-form.validIdCard = validIdCard
-field.validIdCard = validIdCard
+form = {...form,...customValid}
+field = {...field,...customValid}
 // form表单验证
 export const formValid = form
 // 基本字段验证
