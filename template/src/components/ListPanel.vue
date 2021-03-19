@@ -1,9 +1,9 @@
 <template>
   <div class="listpanel-container">
-    <div class="header">
+    <div class="listpanel-container__header">
       <slot name='header'></slot>
     </div>
-    <el-tabs type="border-card" v-bind="$attrs">
+    <el-tabs type="border-card" class="custom-card" v-bind="$attrs">
       <el-tab-pane :label="title">
         <slot></slot>
       </el-tab-pane>
@@ -21,6 +21,25 @@ export default {
         return '列表'
       }
     }
+  },
+  mounted () {
+    let _this = this
+    this.$nextTick(() => {
+      _this.resize()
+
+      _this.$once('hook:beforeDestroy', () => {
+        window.removeEventListener('resize', _this.resize, false)
+      })
+      window.addEventListener('resize', _this.resize, false)
+    })
+  },
+  methods: {
+    resize () {
+      let width = document.querySelector('.custom-card .is-active').clientWidth
+      let panelWidth = document.querySelector('.listpanel-container').clientWidth
+      document.querySelector('.listpanel-container__header').style.width = `${panelWidth - width - 40}px`
+      document.querySelector('.listpanel-container__header').style.left = `${width + 10}px`
+    }
   }
 }
 </script>
@@ -29,7 +48,7 @@ export default {
 .listpanel-container{
   position: relative;
   margin-bottom: 20px;
-  .header{
+  &__header{
     position: absolute;
     width: 80%+5%;
     z-index: 200;
