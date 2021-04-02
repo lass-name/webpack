@@ -61,7 +61,7 @@ requireApi.keys().forEach(file => {
         options = {data, ...options}
       }
       // 处理主动formData传值方式
-      let isFormData = payload.toString() === '[object FormData]'
+      let isFormData = payload && `${payload}`.toString() === '[object FormData]'
       if (isFormData) {
         options = {data, ...options}
       }
