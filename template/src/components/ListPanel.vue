@@ -37,8 +37,10 @@ export default {
     resize () {
       let width = document.querySelector('.custom-card .is-active').clientWidth
       let panelWidth = document.querySelector('.listpanel-container').clientWidth
-      document.querySelector('.listpanel-container__header').style.width = `${panelWidth - width - 40}px`
-      document.querySelector('.listpanel-container__header').style.left = `${width + 10}px`
+      if(+width > 0) {
+        document.querySelector('.listpanel-container__header').style.width = `${panelWidth - width - 40}px`
+        document.querySelector('.listpanel-container__header').style.left = `${width + 10}px`
+      }
     }
   }
 }
